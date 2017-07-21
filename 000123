@@ -1,0 +1,100 @@
+//Write your Javascript here
+var p = new Player();
+var zombies = [];
+
+function setup() {
+	createCanvas(600, 600);
+  	var z = new Zombie(150,150);
+  	zombies.push(z);
+}
+
+function draw() {
+	background(51, 51, 51);
+  	p.show();
+  
+  zombies.forEach(function(zombie) {
+  	zombie.show();
+    zombie.update();
+  });
+  if (keyIsPressed){
+    if (keyCode == UP_ARROW){
+      p.y -= 10;
+    }
+    if (keyCode == DOWN_ARROW){
+      p.y += 10;
+    }
+    if (keyCode == LEFT_ARROW){
+      p.x -= 10;
+    }
+    if (keyCode == RIGHT_ARROW){
+      p.x += 10;
+    }
+  }
+
+    var distance = dist(p.x, p.y, 20, 20);
+    if (distance < 40) {
+        p.isHome = true;
+    }
+    if (p.isHome) {
+        var rx = floor(random(300));
+        var ry = floor(random(300));
+        var z = new Zombie(rx, ry);
+zombies.push(z);   
+        p.x = 550;
+        p.y = 550;
+        p.isHome = false;
+    }
+  fill(255, 0, 0);
+  stroke(255, 0, 0);
+  rect(20, 20, 20, 20);
+
+  // add the player movement and home display code here
+}
+
+function Player(){
+    this.x = 550;
+    this.y = 550;
+    this.isHome = false;
+    this.show = function(){
+        stroke(0,0,255);
+		strokeWeight(25);
+		point(this.x, this.y);
+  };
+}
+
+function Zombie(x, y) {
+  this.x = x;
+  this.y = y;
+  
+  this.show = function(){
+		stroke(0,255,0);
+    strokeWeight(40);
+    point(this.x,this.y);
+  };
+  
+  this.update = function(){
+      var r = floor(random(4));
+      switch(r){
+        case 0:
+          this.x += 3;
+          break;
+        case 1:
+          this.x -= 3;
+          break;
+        case 2:
+          this.y += 3;
+          break;
+        case 3:
+          this.y -= 3;
+          break;
+      }
+      this.x = constrain(this.x, 0, 285);
+      this.y = constrain(this.y, 0, 285);
+   };
+}
+
+
+
+
+
+//end
